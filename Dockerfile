@@ -12,6 +12,7 @@ RUN pear install pear.netpirates.net/Autoload
 
 RUN npm install less -g
 RUN npm install recess -g
+RUN npm install bless -g
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
