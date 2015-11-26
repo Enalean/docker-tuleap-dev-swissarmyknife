@@ -4,7 +4,7 @@ set -e
 
 MAKE="make -C /tuleap"
 
-options=`getopt -o h -l less,autoload,rnc2rng -- "$@"`
+options=`getopt -o h -l less,autoload,rnc2rng,grunt: -- "$@"`
 
 eval set -- "$options"
 
@@ -20,6 +20,10 @@ do
 	--rnc2rng)
 	    rnc2rng=1
 	    shift 1;;
+	--grunt)
+	    grunt=1
+	    grunt_path=$2
+	    shift 2;;
 	--)
 	    shift 1; break ;;
 	*)
@@ -39,3 +43,6 @@ if [ -n "$rnc2rng" ]; then
     $MAKE rnc2rng
 fi
 
+if [ -n "$grunt" ]; then
+    $MAKE grunt GRUNT_PATH=$grunt_path
+fi
