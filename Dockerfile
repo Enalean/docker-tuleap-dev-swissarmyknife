@@ -1,16 +1,22 @@
-FROM ubuntu:14.04
+FROM ubuntu
 
-MAINTAINER Manuel VACELET <manuel.vacelet@enalean.com>
+MAINTAINER Martin GOYOT <martin.goyot@enalean.com>
 
-RUN apt-get update -y && \
-    apt-get install -y nodejs npm php-pear jing trang && \
-    pear config-set auto_discover 1 && \
-    pear install pear.netpirates.net/Autoload && \
-    npm install -g less recess bless && \
-    ln -s /usr/bin/nodejs /usr/bin/node
+RUN apt-get update
+RUN apt-get install -y nodejs
+RUN apt-get install -y npm
+RUN apt-get install -y php-pear
 
-COPY run.sh /run.sh
-COPY run-as-owner.sh /run-as-owner.sh
-RUN chmod a+x /run.sh /run-as-owner.sh
+RUN pear config-set auto_discover 1
+RUN pear install pear.netpirates.net/Autoload
+
+RUN npm install less -g
+RUN npm install recess -g
+RUN npm install bless -g
+
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+
+ADD run.sh /run.sh
+RUN chmod u+x /run.sh
 
 ENTRYPOINT ["/run.sh"]
