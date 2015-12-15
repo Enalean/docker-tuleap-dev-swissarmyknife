@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 error() {
     echo "*** ERROR: $@" >2
     exit 1
@@ -9,16 +7,18 @@ error() {
 
 check_variables() {
     if [ -z "$USER" ]; then
-	error "missing -e USER=\$(id -u) variable"
+       error "missing -e USER=\$(id -u) variable"
     fi
     if [ -z "$GROUP" ]; then
-	error "missing -e GROUP=\$(id -g) variable"
+       error "missing -e GROUP=\$(id -g) variable"
     fi
 }
 
 create_run_user() {
-    groupadd -g $GROUP runner
-    useradd -g $GROUP -u $USER -m runner
+    groupdel "$(getent group "$GROUP" | cut -d: -f1)" || true
+    groupadd -g "$GROUP" runner
+		userdel "$(getent passwd "$USER" | cut -d: -f1)" || true
+    useradd -g "$GROUP" -u "$USER" -m runner
 }
 
 command="/run-as-owner.sh $@"
