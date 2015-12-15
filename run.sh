@@ -15,9 +15,10 @@ check_variables() {
 }
 
 create_run_user() {
-    groupdel "$(getent group "$GROUP" | cut -d: -f1)" || true
-    groupadd -g "$GROUP" runner
-		userdel "$(getent passwd "$USER" | cut -d: -f1)" || true
+    if ! getent group "$GROUP" &> /dev/null ; then
+        groupadd -g "$GROUP" runner
+    fi
+
     useradd -g "$GROUP" -u "$USER" -m runner
 }
 
