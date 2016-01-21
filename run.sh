@@ -5,15 +5,17 @@ error() {
     exit 1
 }
 
-check_variables() {
-    if [ -z "$USER" ]; then
-       error "missing -e USER=\$(id -u) variable"
-    fi
-    if [ -z "$GROUP" ]; then
-       error "missing -e GROUP=\$(id -g) variable"
-    fi
+is_dir() {
+    local dir=$1
+
+    [[ -d $dir ]]
 }
 
-check_variables
+get_user_group_id_tuleap() {
+    stat -c '%u:%g' /tuleap
+}
 
-gosu "$USER:$GROUP" "/run-as-owner.sh" "$@"
+is_dir /tuleap \
+    || error 'Missing /tuleap (did you mount the volume?)'
+
+gosu "$(get_user_group_id_tuleap)" "/run-as-owner.sh" "$@"
