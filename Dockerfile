@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 MAINTAINER Manuel VACELET <manuel.vacelet@enalean.com>
 
 RUN apt-get update -y && \
-    apt-get install -y curl php-cli nodejs npm jing trang git libfontconfig gosu && \
+    apt-get install -y curl php-cli nodejs npm ruby-sass jing trang git libfontconfig gosu && \
     npm install -g less recess grunt-cli bower && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
     rm -rf /var/lib/apt/lists/*
