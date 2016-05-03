@@ -47,7 +47,7 @@ if [ -n "$autoload" ]; then
 fi
 
 if [ -n "$rnc2rng" ]; then
-    $MAKE rnc2rng
+    $MAKE rnc2rng JAVA_CMD=/usr/bin/java
 fi
 
 if [ -n "$grunt" ]; then
