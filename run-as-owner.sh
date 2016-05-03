@@ -4,7 +4,7 @@ set -e
 
 MAKE="make -C /tuleap"
 
-options=`getopt -o h -l less,sass,autoload,rnc2rng,grunt: -- "$@"`
+options=`getopt -o h -l less,sass,sass_dev,autoload,rnc2rng,grunt: -- "$@"`
 
 eval set -- "$options"
 
@@ -16,6 +16,9 @@ do
 	    shift 1;;
 	--sass)
 	    sass=1
+	    shift 1;;
+	--sass_dev)
+	    sass_dev=1
 	    shift 1;;
 	--autoload)
 	    autoload=1
@@ -38,8 +41,12 @@ if [ -n "$less" ]; then
     $MAKE less
 fi
 
-if [ -n "$less" ]; then
+if [ -n "$sass" ]; then
     $MAKE sass
+fi
+
+if [ -n "$sass_dev" ]; then
+    $MAKE sass-dev
 fi
 
 if [ -n "$autoload" ]; then
