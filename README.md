@@ -14,11 +14,11 @@ As of today you can:
 
 Build your less files:
 
-    $ docker run --rm=true -v $PWD:/tuleap enalean/tuleap-dev-swissarmyknife --less --user-id yourUserId
+    $ docker run --rm=true -v "$(pwd)":/tuleap enalean/tuleap-dev-swissarmyknife:2 --less
 
 Generate autoload files:
 
-    $ docker run --rm=true -v $PWD:/tuleap enalean/tuleap-dev-swissarmyknife --autoload --user-id yourUserId
+    $ docker run --rm=true -v "$(pwd)":/tuleap enalean/tuleap-dev-swissarmyknife:2 --autoload
 
 ## Makefile
 

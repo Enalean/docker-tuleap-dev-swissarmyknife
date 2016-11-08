@@ -1,22 +1,19 @@
-FROM ubuntu
+FROM ubuntu:16.04
 
-MAINTAINER Martin GOYOT <martin.goyot@enalean.com>
+MAINTAINER Manuel VACELET <manuel.vacelet@enalean.com>
 
-RUN apt-get update
-RUN apt-get install -y nodejs
-RUN apt-get install -y npm
-RUN apt-get install -y php-pear
+RUN apt-get update -y && \
+    apt-get install -y curl php-cli nodejs npm ruby-sass jing trang git libfontconfig gosu && \
+    npm install -g less recess grunt-cli bower && \
+    gem install scss-lint && \
+    ln -s /usr/bin/nodejs /usr/bin/node && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN pear config-set auto_discover 1
-RUN pear install pear.netpirates.net/Autoload
+RUN curl -o /usr/local/bin/phpab -fsSL "http://phpab.net/phpab-1.16.1.phar" && \
+    chmod +x /usr/local/bin/phpab
 
-RUN npm install less -g
-RUN npm install recess -g
-RUN npm install bless -g
-
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
-ADD run.sh /run.sh
-RUN chmod u+x /run.sh
+COPY run.sh /run.sh
+COPY run-as-owner.sh /run-as-owner.sh
+RUN chmod a+x /run.sh /run-as-owner.sh
 
 ENTRYPOINT ["/run.sh"]
