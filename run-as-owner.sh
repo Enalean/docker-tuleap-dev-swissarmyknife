@@ -4,7 +4,7 @@ set -e
 
 MAKE="make -C /tuleap"
 
-options=`getopt -o h -l less,sass,sass_dev,autoload,rnc2rng,grunt: -- "$@"`
+options=`getopt -o h -l less,sass,sass_dev,autoload,rnc2rng,grunt:,npm -- "$@"`
 
 eval set -- "$options"
 
@@ -30,6 +30,9 @@ do
 	    grunt=1
 	    grunt_path=$2
 	    shift 2;;
+	--npm)
+	    npm=1
+	    shift 1;;
 	--)
 	    shift 1; break ;;
 	*)
@@ -59,4 +62,10 @@ fi
 
 if [ -n "$grunt" ]; then
     $MAKE grunt GRUNT_PATH=$grunt_path
+fi
+
+if [ -n "$npm" ]; then
+    cd /tuleap && mkdir /tmp/npm_cache && \
+      npm_config_cache=/tmp/npm_cache npm install && \
+      npm_config_cache=/tmp/npm_cache npm run build
 fi
